@@ -67,7 +67,7 @@ function LiveConsole() {
 
 /* ---------- Left canvas ---------- */
 const SNIPPETS = {
-  'AI Gateway': '// One gateway, many LLM providers (C#)\nforeach (var p in byPriority) {\n  if (p.Circuit.IsOpen) continue;        // skip unhealthy\n  try { return await p.Client.GetResponseAsync(prompt); }\n  catch { p.Circuit.RecordFailure(); }\n}',
+  'AI Gateway': '// One gateway, many LLM providers\nfor each provider in priority order:\n  if circuit is open: skip          // unhealthy\n  try: return provider.complete(prompt)\n  catch: circuit.recordFailure()    // trips after N failures',
   'Multi-agent': '// Generator + Verifier loop\nconfig = generator.draft(sourceDocs);\nwhile (!verifier.passes(config, samples))\n  config = generator.revise(config, verifier.feedback());\n// 250+ sources, 4 weeks > under 2 days',
   'RAG': '-- ResuMatch hybrid search (pgvector)\nSELECT job_id, 1 - (embedding <=> :q) AS score\nFROM job_chunks\nWHERE location = :loc\nORDER BY embedding <=> :q LIMIT 20;\n-- window function de-duplicates chunks per job',
   'Spring Security': '// Stateless JWT + role-based access\nhttp.sessionManagement(s -> s.sessionCreationPolicy(STATELESS))\n    .authorizeHttpRequests(a -> a\n      .requestMatchers("/admin/**").hasRole("ADMIN")\n      .anyRequest().authenticated());',

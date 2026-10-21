@@ -19,7 +19,7 @@ const impact = [
 
 const stack = [
   { cat: 'Languages', tags: ['Java', 'C#', 'SQL', 'Python', 'JavaScript'],
-    ctx: 'Java and C# are my two main backend languages at Cognizant: the Java 17 migration and SSO work are Java, the AI pipeline and gateway are C#. SQL across SQL Server and PostgreSQL.', pill: 'Java / C# / SQL' },
+    ctx: 'Java and C# are my two main backend languages at Cognizant, with Python and JavaScript alongside. SQL across SQL Server and PostgreSQL.', pill: 'Java / C# / SQL' },
   { cat: 'Backend', tags: ['Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'ASP.NET Core', 'REST APIs', 'Microservices', 'Dependency Injection', 'Middleware Pipelines', 'Swagger/OpenAPI'],
     ctx: 'REST APIs and microservices on Spring Boot and ASP.NET Core, secured with OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > middleware / filter chain > JWT > role check > controller' },
   { cat: 'AI & LLM', tags: ['RAG', 'pgvector', 'LangChain4j', 'Prompt Engineering', 'Agentic Workflows', 'Azure AI Foundry'],
