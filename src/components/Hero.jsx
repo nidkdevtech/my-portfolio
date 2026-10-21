@@ -67,7 +67,7 @@ function LiveConsole() {
 
 /* ---------- Left canvas ---------- */
 const SNIPPETS = {
-  'AI Gateway': '// One gateway, many LLM providers\nfor (Provider p : byPriority) {\n  if (p.circuit().isOpen()) continue;   // skip unhealthy\n  try { return p.complete(prompt); }\n  catch (Exception e) { p.circuit().recordFailure(); }\n}',
+  'AI Gateway': '// One gateway, many LLM providers (C#)\nforeach (var p in byPriority) {\n  if (p.Circuit.IsOpen) continue;        // skip unhealthy\n  try { return await p.Client.GetResponseAsync(prompt); }\n  catch { p.Circuit.RecordFailure(); }\n}',
   'Multi-agent': '// Generator + Verifier loop\nconfig = generator.draft(sourceDocs);\nwhile (!verifier.passes(config, samples))\n  config = generator.revise(config, verifier.feedback());\n// 250+ sources, 4 weeks > under 2 days',
   'RAG': '-- ResuMatch hybrid search (pgvector)\nSELECT job_id, 1 - (embedding <=> :q) AS score\nFROM job_chunks\nWHERE location = :loc\nORDER BY embedding <=> :q LIMIT 20;\n-- window function de-duplicates chunks per job',
   'Spring Security': '// Stateless JWT + role-based access\nhttp.sessionManagement(s -> s.sessionCreationPolicy(STATELESS))\n    .authorizeHttpRequests(a -> a\n      .requestMatchers("/admin/**").hasRole("ADMIN")\n      .anyRequest().authenticated());',
@@ -93,7 +93,7 @@ function Hero() {
           </h1>
 
           <p className="mt-6 text-sm text-gray-400 max-w-md">
-            I build Java and Spring Boot backends and AI-powered systems, from REST APIs and microservices to multi-agent LLM pipelines, with React on the front end. Tap a concept to see how I work:
+            I build backends in C# / ASP.NET Core and Java / Spring Boot, plus AI-powered systems, from REST APIs and microservices to multi-agent LLM pipelines, with React on the front end. Tap a concept to see how I work:
           </p>
           <div className="flex flex-wrap gap-2 mt-3">
             {Object.keys(SNIPPETS).map((k) => (

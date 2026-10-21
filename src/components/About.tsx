@@ -17,10 +17,10 @@ const impact = [
 ];
 
 const stack = [
-  { cat: 'Languages', tags: ['Java', 'C#', 'SQL', 'Python', 'JavaScript'],
-    ctx: 'Java and Spring Boot are my main stack at Cognizant. C#, Python and JavaScript round it out, with SQL across SQL Server and PostgreSQL.', pill: 'Java / C# / SQL' },
-  { cat: 'Backend', tags: ['Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'REST APIs', 'Microservices'],
-    ctx: 'REST APIs and microservices secured with Spring Security: OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > filter chain > JWT > role check > controller' },
+  { cat: 'Languages', tags: ['C#', 'Java', 'SQL', 'Python', 'JavaScript'],
+    ctx: 'C# and Java are my two main backend languages at Cognizant: the AI pipeline and gateway are C#, the Java 17 migration and SSO work are Java. SQL across SQL Server and PostgreSQL.', pill: 'C# / Java / SQL' },
+  { cat: 'Backend', tags: ['ASP.NET Core', 'Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'REST APIs', 'Microservices', 'Dependency Injection', 'Middleware Pipelines', 'Swagger/OpenAPI'],
+    ctx: 'REST APIs and microservices on ASP.NET Core and Spring Boot, secured with OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > middleware / filter chain > JWT > role check > controller' },
   { cat: 'AI & LLM', tags: ['RAG', 'pgvector', 'LangChain4j', 'Prompt Engineering', 'Agentic Workflows', 'Azure AI Foundry'],
     ctx: 'Multi-agent pipelines and a multi-provider gateway in production, plus ResuMatch as a personal RAG project. Comfortable with AI-assisted development (Claude Code, Cursor).', pill: 'Anthropic certified' },
   { cat: 'Frontend', tags: ['React.js', 'JavaScript', 'HTML', 'CSS'],
@@ -124,7 +124,7 @@ function About({ notify }: { notify: (msg: string) => void }) {
         <div>
           <p className="font-mono text-xs sm:text-sm tracking-wide mb-4" style={{ color: ACCENT }}>// ABOUT & TECH STACK</p>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl leading-tight mb-8 text-white">
-            I'm {profile.firstName}, a full-stack engineer who builds Java and Spring Boot backends and AI-powered systems, with React on the front end.
+            I'm {profile.firstName}, a full-stack engineer who builds backends in C# / ASP.NET Core and Java / Spring Boot, plus AI-powered systems, with React on the front end.
           </h2>
 
           <div className="grid sm:grid-cols-2 gap-3 mb-8">

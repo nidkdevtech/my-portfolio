@@ -21,7 +21,7 @@ export const profile = {
 };
 
 export const skills = [
-  'Java', 'Spring Boot', 'Spring Security', 'C#', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
+  'C#', 'ASP.NET Core', 'Java', 'Spring Boot', 'Spring Security', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
   'pgvector', 'LangChain4j', 'Azure AI Foundry', 'Docker', 'Azure DevOps',
 ];
 
@@ -39,13 +39,13 @@ export const projects: Project[] = [
     subtitle: 'Generator and Verifier agents replace hand-written extraction code across 250+ legal data sources',
     metric: { value: '4 wks > 2 days', label: 'new-source delivery time, at 90%+ accuracy' },
     points: [
-      'Architected a multi-agent AI pipeline (Generator + Verifier agents) that auto-generates document-parsing configurations.',
+      'Architected a multi-agent AI pipeline in C# (Generator + Verifier agents) that auto-generates document-parsing configurations.',
       'Replaced hand-written extraction code across 250+ legal data sources.',
       'Cut new-source delivery from 4 weeks to under 2 days at 90%+ accuracy.',
       'Designed a durable job queue on SQL Server with a dedicated worker service: safe job claiming across instances, automatic recovery of abandoned jobs, and quality and token tracking per request.',
       'Recognised as Project Key Contributor (Sep 2025) for designing and leading development of the system.',
     ],
-    stack: ['Java', 'Spring Boot', 'SQL Server', 'LLM agents', 'Azure AI Foundry'],
+    stack: ['C#', 'ASP.NET Core', 'SQL Server', 'LLM agents', 'Azure AI Foundry'],
     repo: '',
   },
   {
@@ -54,12 +54,12 @@ export const projects: Project[] = [
     subtitle: 'Priority-based fallback, circuit-breaker health checks and provider-agnostic prompt caching',
     metric: { value: '90%', label: 'approx. cut in cached-input token cost' },
     points: [
-      'Built a centralised AI gateway microservice routing across OpenAI, Anthropic and DeepSeek via Azure AI Foundry.',
+      'Built a centralised AI gateway as an ASP.NET Core microservice, implementing IChatClient over Microsoft.Extensions.AI and routing across OpenAI, Anthropic and DeepSeek via Azure AI Foundry.',
       'Priority-based fallback with circuit-breaker health checks, so a failing provider is skipped automatically.',
       'Provider-agnostic prompt caching that cut cached-input token cost by ~90%.',
       'Used by 4+ consumer applications. Try the simulator below to see the fallback logic.',
     ],
-    stack: ['Java', 'Spring Boot', 'Azure AI Foundry', 'OpenAI', 'Anthropic', 'DeepSeek'],
+    stack: ['C#', 'ASP.NET Core', 'Microsoft.Extensions.AI', 'Azure AI Foundry', 'OpenAI', 'Anthropic', 'DeepSeek'],
     repo: '',
   },
   {
