@@ -89,11 +89,11 @@ function Hero() {
 
           <p className="font-mono text-sm text-gray-400 mb-3">{profile.role} / {profile.company}</p>
           <h1 className="font-display font-extrabold uppercase leading-[0.9] tracking-tight text-6xl md:text-8xl" style={{ textShadow: `0 0 40px ${ACCENT}40` }}>
-            NIDHISH<br />KUMAR<br />SINGH
+            NIDHISH<br />SINGH
           </h1>
 
           <p className="mt-6 text-sm text-gray-400 max-w-md">
-            I build backends in C# / ASP.NET Core and Java / Spring Boot, plus AI-powered systems, from REST APIs and microservices to multi-agent LLM pipelines, with React on the front end. Tap a concept to see how I work:
+            I build backend systems and automation tools that run in production, in Java and C#, plus the AI services that sit on top of them. Tap a concept to see how I work:
           </p>
           <div className="flex flex-wrap gap-2 mt-3">
             {Object.keys(SNIPPETS).map((k) => (

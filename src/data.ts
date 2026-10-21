@@ -7,7 +7,7 @@ export type Project = {
 };
 
 export const profile = {
-  name: 'Nidhish Kumar Singh',
+  name: 'Nidhish Singh',
   firstName: 'Nidhish',
   initials: 'NS',
   role: 'Full-Stack Software Engineer',
@@ -21,7 +21,7 @@ export const profile = {
 };
 
 export const skills = [
-  'C#', 'ASP.NET Core', 'Java', 'Spring Boot', 'Spring Security', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
+  'Java', 'Spring Boot', 'Spring Security', 'C#', 'ASP.NET Core', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
   'pgvector', 'LangChain4j', 'Azure AI Foundry', 'Docker', 'Azure DevOps',
 ];
 

@@ -17,10 +17,10 @@ const impact = [
 ];
 
 const stack = [
-  { cat: 'Languages', tags: ['C#', 'Java', 'SQL', 'Python', 'JavaScript'],
-    ctx: 'C# and Java are my two main backend languages at Cognizant: the AI pipeline and gateway are C#, the Java 17 migration and SSO work are Java. SQL across SQL Server and PostgreSQL.', pill: 'C# / Java / SQL' },
-  { cat: 'Backend', tags: ['ASP.NET Core', 'Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'REST APIs', 'Microservices', 'Dependency Injection', 'Middleware Pipelines', 'Swagger/OpenAPI'],
-    ctx: 'REST APIs and microservices on ASP.NET Core and Spring Boot, secured with OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > middleware / filter chain > JWT > role check > controller' },
+  { cat: 'Languages', tags: ['Java', 'C#', 'SQL', 'Python', 'JavaScript'],
+    ctx: 'Java and C# are my two main backend languages at Cognizant: the Java 17 migration and SSO work are Java, the AI pipeline and gateway are C#. SQL across SQL Server and PostgreSQL.', pill: 'Java / C# / SQL' },
+  { cat: 'Backend', tags: ['Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'ASP.NET Core', 'REST APIs', 'Microservices', 'Dependency Injection', 'Middleware Pipelines', 'Swagger/OpenAPI'],
+    ctx: 'REST APIs and microservices on Spring Boot and ASP.NET Core, secured with OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > middleware / filter chain > JWT > role check > controller' },
   { cat: 'AI & LLM', tags: ['RAG', 'pgvector', 'LangChain4j', 'Prompt Engineering', 'Agentic Workflows', 'Azure AI Foundry'],
     ctx: 'Multi-agent pipelines and a multi-provider gateway in production, plus ResuMatch as a personal RAG project. Comfortable with AI-assisted development (Claude Code, Cursor).', pill: 'Anthropic certified' },
   { cat: 'Frontend', tags: ['React.js', 'JavaScript', 'HTML', 'CSS'],
@@ -123,9 +123,13 @@ function About({ notify }: { notify: (msg: string) => void }) {
         {/* ---------- left: narrative + dependency matrix ---------- */}
         <div>
           <p className="font-mono text-xs sm:text-sm tracking-wide mb-4" style={{ color: ACCENT }}>// ABOUT & TECH STACK</p>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl leading-tight mb-8 text-white">
-            I'm {profile.firstName}, a full-stack engineer who builds backends in C# / ASP.NET Core and Java / Spring Boot, plus AI-powered systems, with React on the front end.
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl leading-tight mb-3 text-white">
+            I'm {profile.firstName}. I build things that run in production.
           </h2>
+          <p className="text-sm text-gray-300 max-w-xl mb-2">
+            Backend systems and automation tools in Java and C#, plus the AI services that sit on top of them.
+          </p>
+          <p className="font-mono text-xs text-gray-500 mb-8">Spring Boot · ASP.NET Core · React · SQL Server · Azure DevOps · Azure AI Foundry</p>
 
           <div className="grid sm:grid-cols-2 gap-3 mb-8">
             {impact.map((c, i) => (
@@ -209,7 +213,7 @@ function About({ notify }: { notify: (msg: string) => void }) {
           {/* command hub */}
           <div className={`${glass} p-4 space-y-3`} style={edge}>
             <p className="font-mono text-[11px] text-gray-500">COMMAND HUB / GET IN TOUCH</p>
-            <motion.a href={profile.resume} download="Nidhish_Kumar_Singh_Resume.pdf" onClick={() => notify('Resume downloading')}
+            <motion.a href={profile.resume} download="Nidhish_Singh_Resume.pdf" onClick={() => notify('Resume downloading')}
               initial="rest" whileHover="hover" whileTap={{ scale: 0.98 }}
               variants={{ rest: { boxShadow: `0 0 0 0 ${ACCENT}00` }, hover: { boxShadow: `0 0 28px ${ACCENT}aa` } }}
               className="flex items-center justify-between gap-3 px-5 py-4 rounded-xl font-semibold text-black" style={{ background: ACCENT }}>
