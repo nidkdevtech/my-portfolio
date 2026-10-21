@@ -22,44 +22,49 @@ export const profile = {
 
 export const skills = [
   'Java', 'Spring Boot', 'Spring Security', 'C#', 'ASP.NET Core', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
-  'pgvector', 'LangChain4j', 'Docker', 'Azure DevOps',
+  'pgvector', 'LangChain4j', 'Azure AI Foundry', 'Docker', 'Azure DevOps',
 ];
 
 export const stats: [string, string][] = [
   ['3 yrs', 'At Cognizant (nearly)'],
   ['250+', 'Legal data sources automated'],
   ['4 wks > 2 days', 'New-source delivery time'],
-  ['0.1x', 'Cached-input read price (opt-in)'],
+  ['90%', 'Cached-input token cost cut (approx.)'],
 ];
 
 export const projects: Project[] = [
   {
     id: 'config-pipeline', name: 'AI Config Pipeline', icon: 'bot', period: 'Cognizant / LexisNexis', badge: 'MULTI-AGENT',
-    headline: 'Multi-agent pipeline that writes document-parsing configs',
-    subtitle: 'A Generator proposes, a Verifier tests the result on a real sample, and a Coordinator decides what happens next',
-    metric: { value: '4 wks > 2 days', label: 'new-source delivery time, across 250+ legal data sources' },
+    headline: 'AI agents that write document-parsing configs',
+    subtitle: 'Every court website needs a parser config. Engineers used to hand-code them. Now agents draft and test them.',
+    metric: { value: '4 wks > 2 days', label: 'per new source, at 90%+ match against ground truth' },
     points: [
-      'Replaced hand-written extraction code for 250+ legal data sources. New-source delivery went from 4 weeks to under 2 days, at 90%+ accuracy.',
-      'The Generator proposes extraction selectors for one section of a document. The Verifier runs them through the real parser on a sample document and answers: pass, fail with feedback, or needs a human.',
-      'Two loops: for each section it generates, checks and refines for up to 10 turns. Then the whole config is scored, and any section that still fails is re-run, up to 3 outer attempts.',
-      'Accuracy is scored against a ground truth the AI first extracts from the sample document, with an acceptance threshold set per run (95 for JSON). A section it cannot fix is marked Needs Human and a person is emailed, while the rest of the config is still produced.',
-      'Built the job queue on SQL Server: one generation at a time (one AI credential and token budget), repeat requests for the same source merge into one row, and a crashed worker\'s claim times out so it cannot block the rest. Without that guard, one case looped 414 times in a day.',
+      'The problem: each new court website (HTML, XML or JSON) needed line-by-line extraction code, about 4 weeks to get one source into production.',
+      'Three parts work together. The Generator proposes extraction selectors for one section of a document. The Verifier runs them through the real parser on a sample and reports pass, fail with feedback, or needs a human. The Coordinator decides what happens next.',
+      'Each section loops generate, check, refine (up to 10 turns). The whole config is then scored and any failing section is re-run (up to 3 attempts).',
+      'Accuracy is measured against ground truth, which a purpose-built prompt extracts from the sample document first. The score is content-aware, with an acceptance threshold set per run (95 for JSON).',
+      'Sections the agents cannot fix are marked Need Human, a person is emailed, and the rest of the config is still delivered.',
+      'A config now generates in minutes and takes 1 to 2 days to test, which is where the 4 weeks to under 2 days comes from. Built for 250+ legal data sources.',
+      'Job queue on SQL Server: one generation at a time (one AI credential, one token budget), repeat requests for the same court merge into one row, and a crashed service cannot block the queue because its claim fails after a timeout.',
+      'Recognised as Project Key Contributor (Sep 2025) for designing and leading the system.',
     ],
-    stack: ['C#', 'ASP.NET Core', 'SQL Server', 'LLM agents'],
+    stack: ['C#', 'ASP.NET Core', 'SQL Server', 'LLM agents', 'Azure AI Foundry'],
     repo: '',
   },
   {
     id: 'ai-gateway', name: 'AI Gateway', icon: 'network', period: 'Cognizant / LexisNexis', badge: 'MICROSERVICE',
-    headline: 'One gateway in front of the LLM, with fallback and a circuit breaker',
-    subtitle: 'An ASP.NET Core service between applications and the client\'s upstream GenAI gateway',
-    metric: { value: '0.1x', label: 'price of a cached-input read vs normal input (opt-in per request)' },
+    headline: 'One gateway for every AI model call',
+    subtitle: 'Apps call my gateway instead of the models. It handles keys, limits, fallback, health and caching.',
+    metric: { value: '~90%', label: 'cheaper cached input tokens with prompt caching' },
     points: [
-      'One upstream credential, one key per application. Each call is checked against the upstream\'s real limits before it is sent, and every attempt goes into one audit log.',
-      'Models are tried in order (a primary, then a fallback). A fallback is never silent: it is logged and flagged on the response.',
-      'Circuit breaker: a rate limit trips it at once, an "overloaded" error pauses that model for 15s, and other errors trip it when half of the last 20 calls failed (never before 10 calls). After the pause, exactly one probe request decides whether it closes.',
-      'Prompt caching is opt-in: the caller marks a large, unchanging prompt and keeps everything above the marker identical. A cache read costs 0.1x and a write 1.25x of normal input price. Try the simulator below.',
+      'Why a gateway: one upstream credential, one key per application, and a single audit log of every attempt. Each call is checked against the upstream limits before it is sent.',
+      'Models are tried in a set order, for example Opus first and Sonnet as the fallback. The default and the fallbacks are configurable, and new models can be added.',
+      'A fallback is never silent. It is logged and flagged on the response.',
+      'Circuit breaker: a rate limit trips it at once, an overloaded model is paused for 15 seconds, and other errors trip it when half of the last 20 calls failed. After a pause, one probe request decides whether it closes again.',
+      'Prompt caching: the caller marks a large, unchanging prompt and keeps it identical. Repeat calls within 5 minutes reuse it, which cuts cached-input token cost by about 90%.',
+      'Used by 4+ applications today. Try the simulator below to see the fallback and circuit breaker at work.',
     ],
-    stack: ['C#', 'ASP.NET Core', 'Microsoft.Extensions.AI', 'Circuit breaker', 'Prompt caching', 'Audit logging'],
+    stack: ['C#', 'ASP.NET Core', 'Microsoft.Extensions.AI', 'Azure AI Foundry', 'Claude'],
     repo: '',
   },
   {

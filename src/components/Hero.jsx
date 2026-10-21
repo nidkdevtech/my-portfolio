@@ -8,13 +8,11 @@ const ACCENT = '#3abf00';
 
 /* ---------- Live console: a looping, illustrative request log ---------- */
 const SCRIPT = [
-  { t: 'POST /v1/generate-config', c: '#d1d5db' },
-  { t: '  section 3/8: generator proposes selectors', c: '#9ca3af' },
-  { t: '  verifier runs them on the sample doc: FAIL + feedback', c: '#f87171' },
-  { t: '  refine (turn 2 of max 10), verifier: PASS', c: ACCENT },
-  { t: '  section 6/8: cannot fix > NEEDS HUMAN, email sent', c: '#fbbf24' },
-  { t: '  whole config scored vs ground truth', c: '#9ca3af' },
-  { t: '  config produced, 1 section flagged for review', c: ACCENT },
+  { t: 'POST /v1/generate  app key ok, within limits', c: '#d1d5db' },
+  { t: '  try opus  cache HIT (cached input ~90% cheaper)', c: ACCENT },
+  { t: '  opus: 529 overloaded > paused 15s', c: '#f87171' },
+  { t: '  try sonnet  200 OK  (fallback, flagged on response)', c: ACCENT },
+  { t: '  audit log: 2 attempts recorded', c: '#9ca3af' },
 ];
 
 function LiveConsole() {
@@ -44,7 +42,7 @@ function LiveConsole() {
           <span className="w-2.5 h-2.5 rounded-full bg-gray-700" />
           <span className="w-2.5 h-2.5 rounded-full bg-gray-700" />
           <span className="w-2.5 h-2.5 rounded-full bg-gray-700" />
-          <span className="ml-2 text-[11px] font-mono text-gray-500">config pipeline / run log (illustrative)</span>
+          <span className="ml-2 text-[11px] font-mono text-gray-500">ai-gateway / request log (illustrative)</span>
         </div>
         <div className="p-4 h-64 font-mono text-[12px] leading-6 overflow-hidden">
           {SCRIPT.slice(0, n).map((l, i) => (
@@ -67,8 +65,8 @@ function LiveConsole() {
 
 /* ---------- Left canvas ---------- */
 const SNIPPETS = {
-  'AI Gateway': '// Try models in order, never fall back silently (C#)\nforeach (var m in modelsInOrder) {\n  if (m.Circuit.IsOpen) continue;        // paused\n  try { return await m.Client.GetResponseAsync(prompt); }\n  catch { m.Circuit.RecordFailure(); }\n}\n// fallback is logged and flagged on the response',
-  'Multi-agent': '// Per section: generate, verify, refine (max 10 turns)\nfor turn in 1..10:\n  selectors = generator.propose(section, feedback)\n  result = verifier.run(selectors, sampleDoc)\n  // pass | fail + feedback | needs_human\n  if result is pass or needs_human: break\n// then score the whole config, re-run failing sections (max 3)',
+  'AI Gateway': '// Try models in configured order. A fallback is never silent.\nforeach (var m in models.Where(m => m.Enabled)) {\n  if (m.Circuit.IsOpen) continue;        // paused, skip\n  try { return await m.Client.GetResponseAsync(prompt); }\n  catch (Exception e) { m.Circuit.Record(e); }\n}',
+  'Multi-agent': '// Per section: generate > verify > refine (max 10 turns)\n// Score the whole config against ground truth;\n// re-run failing sections (max 3 attempts)\n// Unfixable section > Need Human, email a person,\n// still deliver the rest of the config',
   'RAG': '-- ResuMatch hybrid search (pgvector)\nSELECT job_id, 1 - (embedding <=> :q) AS score\nFROM job_chunks\nWHERE location = :loc\nORDER BY embedding <=> :q LIMIT 20;\n-- window function de-duplicates chunks per job',
   'Spring Security': '// Stateless JWT + role-based access\nhttp.sessionManagement(s -> s.sessionCreationPolicy(STATELESS))\n    .authorizeHttpRequests(a -> a\n      .requestMatchers("/admin/**").hasRole("ADMIN")\n      .anyRequest().authenticated());',
 };
