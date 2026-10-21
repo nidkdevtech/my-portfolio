@@ -11,8 +11,8 @@ const edge = { borderColor: 'rgba(58,191,0,0.28)' };
 const ROTATE_MS = 6000; // how long each tech-stack category stays on screen
 
 const impact = [
-  { tag: 'AI SYSTEMS', text: 'Architected a multi-agent pipeline (Generator + Verifier) that cut new-source delivery from 4 weeks to under 2 days across 250+ legal data sources, at 90%+ accuracy.' },
-  { tag: 'PLATFORM', text: 'Built a multi-provider AI gateway (OpenAI, Anthropic, DeepSeek) with priority fallback, circuit breakers and prompt caching that cut cached-input token cost by ~90%.' },
+  { tag: 'AI SYSTEMS', text: 'Built a multi-agent pipeline (Generator, Verifier, Coordinator) that cut new-source delivery from 4 weeks to under 2 days across 250+ legal data sources. What it cannot fix is flagged for a person.' },
+  { tag: 'PLATFORM', text: 'Built an LLM gateway with a key per app, model fallback that is always logged, a circuit breaker, and opt-in prompt caching where cached reads cost 0.1x.' },
   { tag: 'MODERNISATION', text: 'Upgraded a legacy Spring Boot application from Java 7 to Java 17 across 12 modules, and added OAuth2 SSO with stateless JWT and role-based access.' },
   { tag: 'FULL-STACK', text: 'Shipped a React + Spring Boot dashboard on Azure DevOps APIs and a database automation platform monitoring 250+ SQL Server instances, each cutting manual work by 40%.' },
 ];
@@ -22,8 +22,8 @@ const stack = [
     ctx: 'Java and C# are my two main backend languages at Cognizant: the Java 17 migration and SSO work are Java, the AI pipeline and gateway are C#. SQL across SQL Server and PostgreSQL.', pill: 'Java / C# / SQL' },
   { cat: 'Backend', tags: ['Spring Boot', 'Spring Security', 'Spring Data JPA', 'Hibernate', 'ASP.NET Core', 'REST APIs', 'Microservices', 'Dependency Injection', 'Middleware Pipelines', 'Swagger/OpenAPI'],
     ctx: 'REST APIs and microservices on Spring Boot and ASP.NET Core, secured with OAuth2 SSO, stateless JWT and role-based access.', flow: 'request > middleware / filter chain > JWT > role check > controller' },
-  { cat: 'AI & LLM', tags: ['RAG', 'pgvector', 'LangChain4j', 'Prompt Engineering', 'Agentic Workflows', 'Azure AI Foundry'],
-    ctx: 'Multi-agent pipelines and a multi-provider gateway in production, plus ResuMatch as a personal RAG project. Comfortable with AI-assisted development (Claude Code, Cursor).', pill: 'Anthropic certified' },
+  { cat: 'AI & LLM', tags: ['RAG', 'pgvector', 'LangChain4j', 'Prompt Engineering', 'Agentic Workflows', 'Prompt Caching'],
+    ctx: 'A multi-agent pipeline and an LLM gateway in production, plus ResuMatch as a personal RAG project. Comfortable with AI-assisted development (Claude Code, Cursor).', pill: 'Anthropic certified' },
   { cat: 'Frontend', tags: ['React.js', 'JavaScript', 'HTML', 'CSS'],
     ctx: 'React front ends for internal dashboards and personal projects, wired to Spring Boot APIs.' },
   { cat: 'Data', tags: ['PostgreSQL', 'SQL Server'],
@@ -141,7 +141,7 @@ function About({ notify }: { notify: (msg: string) => void }) {
           <p className="text-sm text-gray-300 max-w-xl mb-2">
             Backend systems and automation tools in Java and C#, plus the AI services that sit on top of them.
           </p>
-          <p className="font-mono text-xs text-gray-500 mb-8">Spring Boot · ASP.NET Core · React · SQL Server · Azure DevOps · Azure AI Foundry</p>
+          <p className="font-mono text-xs text-gray-500 mb-8">Spring Boot · ASP.NET Core · React · SQL Server · Azure DevOps</p>
 
           <div className="grid sm:grid-cols-2 gap-3 mb-8">
             {impact.map((c, i) => (
@@ -228,9 +228,9 @@ function About({ notify }: { notify: (msg: string) => void }) {
             </div>
 
             <div className={`${glass} p-4`} style={edge}>
-              <div className="text-3xl font-display font-extrabold" style={{ color: ACCENT }}><CountUp to={90} suffix="%" /></div>
-              <p className="text-xs text-gray-400 mb-3">Cached-input token cost cut (approx.)</p>
-              <Gauge value={90} label="Roughly ninety percent token cost reduction" />
+              <div className="text-3xl font-display font-extrabold" style={{ color: ACCENT }}>0.1x</div>
+              <p className="text-xs text-gray-400 mb-3">Cached-input read price (opt-in)</p>
+              <Gauge value={10} label="Cached input read costs one tenth of normal input" />
               <div className="flex gap-1.5 mt-3"><Pill>AI gateway</Pill></div>
             </div>
           </div>

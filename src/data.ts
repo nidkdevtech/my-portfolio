@@ -22,44 +22,44 @@ export const profile = {
 
 export const skills = [
   'Java', 'Spring Boot', 'Spring Security', 'C#', 'ASP.NET Core', 'React.js', 'JavaScript', 'SQL Server', 'PostgreSQL',
-  'pgvector', 'LangChain4j', 'Azure AI Foundry', 'Docker', 'Azure DevOps',
+  'pgvector', 'LangChain4j', 'Docker', 'Azure DevOps',
 ];
 
 export const stats: [string, string][] = [
   ['3 yrs', 'At Cognizant (nearly)'],
   ['250+', 'Legal data sources automated'],
   ['4 wks > 2 days', 'New-source delivery time'],
-  ['90%', 'Cached-input token cost cut (approx.)'],
+  ['0.1x', 'Cached-input read price (opt-in)'],
 ];
 
 export const projects: Project[] = [
   {
     id: 'config-pipeline', name: 'AI Config Pipeline', icon: 'bot', period: 'Cognizant / LexisNexis', badge: 'MULTI-AGENT',
     headline: 'Multi-agent pipeline that writes document-parsing configs',
-    subtitle: 'Generator and Verifier agents replace hand-written extraction code across 250+ legal data sources',
-    metric: { value: '4 wks > 2 days', label: 'new-source delivery time, at 90%+ accuracy' },
+    subtitle: 'A Generator proposes, a Verifier tests the result on a real sample, and a Coordinator decides what happens next',
+    metric: { value: '4 wks > 2 days', label: 'new-source delivery time, across 250+ legal data sources' },
     points: [
-      'Architected a multi-agent AI pipeline in C# (Generator + Verifier agents) that auto-generates document-parsing configurations.',
-      'Replaced hand-written extraction code across 250+ legal data sources.',
-      'Cut new-source delivery from 4 weeks to under 2 days at 90%+ accuracy.',
-      'Designed a durable job queue on SQL Server with a dedicated worker service: safe job claiming across instances, automatic recovery of abandoned jobs, and quality and token tracking per request.',
-      'Recognised as Project Key Contributor (Sep 2025) for designing and leading development of the system.',
+      'Replaced hand-written extraction code for 250+ legal data sources. New-source delivery went from 4 weeks to under 2 days, at 90%+ accuracy.',
+      'The Generator proposes extraction selectors for one section of a document. The Verifier runs them through the real parser on a sample document and answers: pass, fail with feedback, or needs a human.',
+      'Two loops: for each section it generates, checks and refines for up to 10 turns. Then the whole config is scored, and any section that still fails is re-run, up to 3 outer attempts.',
+      'Accuracy is scored against a ground truth the AI first extracts from the sample document, with an acceptance threshold set per run (95 for JSON). A section it cannot fix is marked Needs Human and a person is emailed, while the rest of the config is still produced.',
+      'Built the job queue on SQL Server: one generation at a time (one AI credential and token budget), repeat requests for the same source merge into one row, and a crashed worker\'s claim times out so it cannot block the rest. Without that guard, one case looped 414 times in a day.',
     ],
-    stack: ['C#', 'ASP.NET Core', 'SQL Server', 'LLM agents', 'Azure AI Foundry'],
+    stack: ['C#', 'ASP.NET Core', 'SQL Server', 'LLM agents'],
     repo: '',
   },
   {
     id: 'ai-gateway', name: 'AI Gateway', icon: 'network', period: 'Cognizant / LexisNexis', badge: 'MICROSERVICE',
-    headline: 'One gateway in front of multiple LLM providers',
-    subtitle: 'Priority-based fallback, circuit-breaker health checks and provider-agnostic prompt caching',
-    metric: { value: '90%', label: 'approx. cut in cached-input token cost' },
+    headline: 'One gateway in front of the LLM, with fallback and a circuit breaker',
+    subtitle: 'An ASP.NET Core service between applications and the client\'s upstream GenAI gateway',
+    metric: { value: '0.1x', label: 'price of a cached-input read vs normal input (opt-in per request)' },
     points: [
-      'Built a centralised AI gateway as an ASP.NET Core microservice, implementing IChatClient over Microsoft.Extensions.AI and routing across OpenAI, Anthropic and DeepSeek via Azure AI Foundry.',
-      'Priority-based fallback with circuit-breaker health checks, so a failing provider is skipped automatically.',
-      'Provider-agnostic prompt caching that cut cached-input token cost by ~90%.',
-      'Used by 4+ consumer applications. Try the simulator below to see the fallback logic.',
+      'One upstream credential, one key per application. Each call is checked against the upstream\'s real limits before it is sent, and every attempt goes into one audit log.',
+      'Models are tried in order (a primary, then a fallback). A fallback is never silent: it is logged and flagged on the response.',
+      'Circuit breaker: a rate limit trips it at once, an "overloaded" error pauses that model for 15s, and other errors trip it when half of the last 20 calls failed (never before 10 calls). After the pause, exactly one probe request decides whether it closes.',
+      'Prompt caching is opt-in: the caller marks a large, unchanging prompt and keeps everything above the marker identical. A cache read costs 0.1x and a write 1.25x of normal input price. Try the simulator below.',
     ],
-    stack: ['C#', 'ASP.NET Core', 'Microsoft.Extensions.AI', 'Azure AI Foundry', 'OpenAI', 'Anthropic', 'DeepSeek'],
+    stack: ['C#', 'ASP.NET Core', 'Microsoft.Extensions.AI', 'Circuit breaker', 'Prompt caching', 'Audit logging'],
     repo: '',
   },
   {
