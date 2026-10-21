@@ -1,13 +1,14 @@
 // src/components/About.tsx: "Diagnostics & System Architecture" spec sheet + command hub
 import { useState, useEffect, useRef } from 'react';
 import type { ReactNode, MouseEvent } from 'react';
-import { motion, animate, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, animate, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import { Download, Linkedin, Github, Mail, Code2 } from 'lucide-react';
 import { profile } from '../data';
 
 const ACCENT = '#3abf00';
 const glass = 'rounded-2xl border bg-gray-950/60 backdrop-blur-md shadow-[0_0_30px_rgba(58,191,0,0.10)]';
 const edge = { borderColor: 'rgba(58,191,0,0.28)' };
+const ROTATE_MS = 6000; // how long each tech-stack category stays on screen
 
 const impact = [
   { tag: 'AI SYSTEMS', text: 'Architected a multi-agent pipeline (Generator + Verifier) that cut new-source delivery from 4 weeks to under 2 days across 250+ legal data sources, at 90%+ accuracy.' },
@@ -92,7 +93,18 @@ function AvatarCard() {
 /* ---------- main ---------- */
 function About({ notify }: { notify: (msg: string) => void }) {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const [meta, setMeta] = useState('PDF');
+  const stackRef = useRef<HTMLDivElement>(null);
+  const stackInView = useInView(stackRef, { amount: 0.4 });
+  const reduceMotion = useReducedMotion();
+  // Carousel: rotate through the categories while visible, and hold still on hover/touch or reduced-motion
+  const auto = stackInView && !paused && !reduceMotion;
+  useEffect(() => {
+    if (!auto) return;
+    const id = setTimeout(() => setActive((a) => (a + 1) % stack.length), ROTATE_MS);
+    return () => clearTimeout(id);
+  }, [auto, active]);
 
   // Real file details for the resume button (size, last updated), when the file is served
   useEffect(() => {
@@ -141,8 +153,8 @@ function About({ notify }: { notify: (msg: string) => void }) {
             ))}
           </div>
 
-          <div className={`${glass} p-4`} style={edge}>
-            <p className="font-mono text-[11px] text-gray-500 mb-3">TECH STACK (hover or tap a category)</p>
+          <div ref={stackRef} onPointerEnter={() => setPaused(true)} onPointerLeave={() => setPaused(false)} className={`${glass} p-4`} style={edge}>
+            <p className="font-mono text-[11px] text-gray-500 mb-3">TECH STACK (rotates automatically, hover or tap to pick)</p>
             <div className="divide-y divide-gray-800">
               {stack.map((row, i) => (
                 <button key={row.cat} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}
@@ -159,10 +171,23 @@ function About({ notify }: { notify: (msg: string) => void }) {
                 </button>
               ))}
             </div>
-            <motion.div key={active} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-xl bg-black/50 border border-gray-800 p-3 text-xs text-gray-300">
+            <motion.div key={active} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} aria-live="off" className="mt-3 rounded-xl bg-black/50 border border-gray-800 overflow-hidden text-xs text-gray-300">
+              {/* loader: fills over ROTATE_MS, then the next category appears */}
+              <div className="h-0.5 bg-gray-800" role="presentation">
+                {auto && (
+                  <motion.div className="h-full origin-left" style={{ background: ACCENT }}
+                    initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: ROTATE_MS / 1000, ease: 'linear' }} />
+                )}
+              </div>
+              <div className="flex items-center justify-between px-3 pt-2 font-mono text-[10px] text-gray-500">
+                <span style={{ color: ACCENT }}>{ctx.cat}</span>
+                <span>{active + 1} / {stack.length} · {auto ? 'auto-rotating' : 'paused'}</span>
+              </div>
+              <div className="p-3 pt-2">
               <p>{ctx.ctx}</p>
               {ctx.flow && <p className="mt-2 font-mono" style={{ color: ACCENT }}>{ctx.flow}</p>}
               {ctx.pill && <div className="mt-2"><Pill>{ctx.pill}</Pill></div>}
+              </div>
             </motion.div>
           </div>
         </div>
